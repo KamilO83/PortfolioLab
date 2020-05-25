@@ -5,7 +5,7 @@ from django.views import View
 
 
 # Create your views here.
-from give_app.forms import SignUpForm
+from give_app.forms import RegistrationForm
 from give_app.models import Donation, Institution
 
 
@@ -27,6 +27,22 @@ class LoginView(View):
 
 class RegisterView(View):
     def get(self, request):
-        return render(request, 'register.html')
+        form = RegistrationForm()
+        return render(request, 'register.html', {'form':form})
 
-    # def post (self, request):
+    def post (self, request):
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            re_password = password
+            form = User.objects.create_user(first_name=first_name, last_name=last_name, email=email,
+                                            password=password, username=email)
+            form.save()
+            return render(request,'register.html', {'form': form} )
+        return render(request,'login.html')
+
+
+

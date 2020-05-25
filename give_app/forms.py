@@ -1,13 +1,23 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
-class SignUpForm(UserCreationForm):
 
-    first_name = forms.CharField(max_length=30, required=True)
-    last_name = forms.CharField(max_length=30, required=True)
-    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+class RegistrationForm(forms.Form):
 
-    class Meta:
-        model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', )
+    first_name = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder':'Imię'}))
+    last_name = forms.CharField(label='',
+                                widget=forms.TextInput(attrs={'placeholder':'Nazwisko'}))
+    email = forms.EmailField(label='',
+                             widget=forms.TextInput(attrs={'placeholder':'Email'}))
+    password = forms.CharField(label='',
+                               widget=forms.PasswordInput(attrs={'placeholder':'Hasło'}),
+                                )
+    re_password = forms.CharField(label='',
+                                  widget=forms.PasswordInput(attrs={'placeholder':'Powtórz hasło'}))
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if not self.errors:
+            if cleaned_data['password'] != cleaned_data['re_password']:
+                raise ValidationError("Hasła nie są identyczne")
+        return self.cleaned_data
