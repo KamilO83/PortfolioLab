@@ -13,11 +13,11 @@ class Category(models.Model):
 class Institution(models.Model):
     FUNDACJA = 'FUN'
     ORGANIZACJA = 'OP'
-    ZBIÓRKA = 'ZL'
+    ZBIORKA = 'ZL'
     TYPE_CHOOICES = [
         (FUNDACJA, "fundacja"),
         (ORGANIZACJA, "organizacja pozarządowa"),
-        (ZBIÓRKA, "zbiórka lokalna"),
+        (ZBIORKA, "zbiórka lokalna"),
     ]
     name = models.CharField(max_length=40)
     type = models.PositiveIntegerField(choices=TYPE_CHOOICES, default=FUNDACJA)

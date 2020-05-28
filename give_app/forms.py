@@ -21,3 +21,5 @@ class RegistrationForm(forms.Form):
             if cleaned_data['password'] != cleaned_data['re_password']:
                 raise ValidationError("Hasła nie są identyczne")
         return self.cleaned_data
+
+
