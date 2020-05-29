@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 
@@ -15,8 +14,7 @@ class RegistrationForm(forms.Form):
                              widget=forms.EmailInput(attrs={'placeholder':'Email'}))
     password = forms.CharField(label='',
                                widget=forms.PasswordInput(attrs={'placeholder':'Hasło'}),
-                               validators=[password_validation]
-                                )
+                               )
     re_password = forms.CharField(label='',
                                   widget=forms.PasswordInput(attrs={'placeholder':'Powtórz hasło'}))
 
