@@ -1,5 +1,9 @@
 from django import forms
+from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
+from django.forms import ModelForm
+
+from give_app.models import Donation
 
 
 class RegistrationForm(forms.Form):
@@ -8,9 +12,10 @@ class RegistrationForm(forms.Form):
     last_name = forms.CharField(label='',
                                 widget=forms.TextInput(attrs={'placeholder':'Nazwisko'}))
     email = forms.EmailField(label='',
-                             widget=forms.TextInput(attrs={'placeholder':'Email'}))
+                             widget=forms.EmailInput(attrs={'placeholder':'Email'}))
     password = forms.CharField(label='',
                                widget=forms.PasswordInput(attrs={'placeholder':'Hasło'}),
+                               validators=[password_validation]
                                 )
     re_password = forms.CharField(label='',
                                   widget=forms.PasswordInput(attrs={'placeholder':'Powtórz hasło'}))
@@ -23,3 +28,7 @@ class RegistrationForm(forms.Form):
         return self.cleaned_data
 
 
+class DonationForm(ModelForm):
+    class Meta:
+        model = Donation
+        exclude = ('user', 'institution', 'categories')

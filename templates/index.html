@@ -11,6 +11,9 @@
             <ul class="dropdown">
               <li><a href="/profile/{{user.profile.pk}}">Profil</a></li>
               <li><a href="#">Ustawienia</a></li>
+                {% if user.is_superuser %}
+                   <li><a href="/admin/">Panel Administratora</a></li>
+                {% endif %}
               <li><a href="/logout/">Wyloguj</a></li>
             </ul>
           </li>
@@ -114,25 +117,7 @@
                 {% if institution.type == 'FUNDACJA' %}
             <li>
             <div class="col">
-              <div class="title">{{ institution.type }} "{{ institution.name }}" </div>
-              <div class="subtitle">{{ institution.type }}</div>
-            </div>
-            <div class="col"><div class="text">{{ institution.categories}}</div></div>
-            </li>
-                {% endif %}
-                {% if institution.type == 'ORGANIZACJA' %}
-            <li>
-            <div class="col">
-              <div class="title">{{ institution.type }} "{{ institution.name }}" </div>
-              <div class="subtitle">{{ institution.type }}</div>
-            </div>
-            <div class="col"><div class="text">{{ institution.categories}}</div></div>
-            </li>
-                {% endif %}
-                {% if institution.type == 'ZBIORKA' %}
-            <li>
-            <div class="col">
-              <div class="title">{{ institution.type }} "{{ institution.name }}" </div>
+              <div class="title">Fundacja "{{ institution.name }}" </div>
               <div class="subtitle">{{ institution.type }}</div>
             </div>
             <div class="col"><div class="text">{{ institution.categories}}</div></div>
@@ -157,41 +142,18 @@
           quos suscipit corporis!
         </p>
         <ul class="help--slides-items">
+            {% for institution in institutions %}
+                {% if institution.type == 'ORGANIZACJA' %}
           <li>
             <div class="col">
-              <div class="title">Organizacja 1</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
+              <div class="title">Organizacja "{{ institution.name }}" </div>
+              <div class="subtitle">{{ institution.type }}</div>
             </div>
-
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
+            <div class="col"><div class="text">{{ institution.categories}}</div></div>
           </li>
 
-          <li>
-            <div class="col">
-              <div class="title">Organizacja 2</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-            </div>
-
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
-          </li>
-
-          <li>
-            <div class="col">
-              <div class="title">Organizacja 3</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-            </div>
-
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
-          </li>
-
-          <li>
-            <div class="col">
-              <div class="title">Organizacja 4</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-            </div>
-
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
-          </li>
+            {% endif %}
+            {% endfor %}
         </ul>
 
         <!-- Pagination
@@ -209,23 +171,18 @@
       <div class="help--slides" data-id="3">
         <p>Lorem ipsum dolor sit amet, his ocurreret persequeris ea, ad utinam laudem duo. Verterem adipisci partiendo eos ne, ea his reque quaeque recteque, ne quo lobortis intellegam.</p>
         <ul class="help--slides-items">
+           {% for institution in institutions %}
+                {% if institution.type == 'ZBIORKA' %}
           <li>
             <div class="col">
-              <div class="title">Lokalna zbiórka 1</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
+              <div class="title">Zbiórka "{{ institution.name }}" </div>
+              <div class="subtitle">{{ institution.type }}</div>
             </div>
-
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
+            <div class="col"><div class="text">{{ institution.categories}}</div></div>
           </li>
 
-          <li>
-            <div class="col">
-              <div class="title">Lokalna zbiórka 2</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-            </div>
-
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
-          </li>
+            {% endif %}
+            {% endfor %}
         </ul>
 
         <!-- Pagination

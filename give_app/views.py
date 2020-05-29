@@ -1,17 +1,12 @@
 from django.contrib.auth import logout, authenticate, login
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect
-
 from django.shortcuts import render, redirect
-from django.template import RequestContext
 from django.views import View
 
 
 # Create your views here.
-from give_app.forms import RegistrationForm
-from give_app.models import Donation, Institution
-
+from give_app.forms import RegistrationForm, DonationForm
+from give_app.models import Donation, Institution, Category
 
 
 class LandingPageView(View):
@@ -23,7 +18,51 @@ class LandingPageView(View):
 
 class AddDonationView(View):
     def get(self, request):
-        return render(request, 'form.html')
+        if request.user.is_authenticated:
+            categories_all = Category.objects.all()
+            donations = Donation.objects.all()
+            institutions = Institution.objects.all()
+            return render(request, 'form.html', {'categories':categories_all,
+                                                 'donations':donations,
+                                                 'institutions':institutions})
+        else:
+            return redirect('/login/')
+
+    def post(self, request):
+        if request.user.is_authenticated:
+            form = DonationForm(request.POST)
+            if form.is_valid():
+                categories_all = Category.objects.all()
+                donations = Donation.objects.all()
+                institutions = Institution.objects.all()
+                quantity = request.POST['quantity']
+                categories = request.POST['categories']
+                institution = request.POST['institution']
+                adress = request.POST['adress']
+                phone_number = request.POST['phone_number']
+                city = request.POST['city']
+                zip_code = request.POST['zip_code']
+                pick_up_date = request.POST['pick_up_date']
+                pick_up_time = request.POST['pick_up_time']
+                pick_up_comment = request.POST['pick_up_comment']
+                form = Donation.objects.create(quantity=quantity,
+                                               categories=categories,
+                                               institution=institution,
+                                               adress=adress,
+                                               phone_number=phone_number,
+                                               city=city,
+                                               zip_code=zip_code,
+                                               pick_up_date=pick_up_date,
+                                               pick_up_time=pick_up_time,
+                                               pick_up_comment=pick_up_comment)
+                form.save()
+                if request.is_ajax():
+                    return render(request, 'form.html', {'categories': categories_all,
+                                                     'donations': donations,
+                                                     'institutions': institutions,
+                                                     'form':form})
+            else:
+                return redirect('/login/')
 
 class LoginView(View):
     def get(self, request):
@@ -65,5 +104,8 @@ class RegisterView(View):
             return render(request,'login.html', {'form': form} )
         return render(request,'register.html')
 
+class ProfilView(View):
+    def get(self,request):
+        return render(request, 'profil.html')
 
 

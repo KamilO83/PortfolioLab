@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<p>Witaj {{ user.username }}</p>
+    <div>Twoje dane to:
+    <ul>
+        <li>Imię: {{ user.first_name }}</li>
+        <li>Nazwisko: {{ user.last_name }}</li>
+        <li>Email: {{ user.email }}</li>
+    </ul>
+    </div>
+    <div>
+    <a href="/">Powrót do strony głównej</a>
+    <a href="/logout/">Wyloguj</a>
+    </div>
+{% endblock %}

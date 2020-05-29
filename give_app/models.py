@@ -23,8 +23,11 @@ class Institution(models.Model):
     type = models.PositiveIntegerField(choices=TYPE_CHOOICES, default=FUNDACJA)
     categories = models.ManyToManyField(Category)
 
-    def __str__(self):
-        return self.name
+    class Meta:
+
+        def __str__(self):
+            return self.name
+
 
 
 class Donation(models.Model):
