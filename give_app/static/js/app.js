@@ -252,20 +252,4 @@ document.addEventListener("DOMContentLoaded", function() {
   if (form !== null) {
     new FormSteps(form);
   }
-
-  var frm = $('#donation');
-    frm.submit(function () {
-        $.ajax({
-            type: frm.attr('method'),
-            url: frm.attr('action'),
-            data: frm.serialize(),
-            success: function (data) {
-                $("#SOME-DIV").html(data);
-            },
-            error: function(data) {
-                $("#MESSAGE-DIV").html("Coś nie działa");
-            }
-        });
-        return false;
-    });
 });
