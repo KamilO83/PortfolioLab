@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 from give_app.models import Institution
-from give_app.views import LandingPageView, AddDonationView, LoginView, RegisterView, LogoutView, ProfilView
+from give_app.views import LandingPageView, AddDonationView, LoginView, RegisterView, LogoutView, ProfilView, \
+    FormCorfirmationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +28,7 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('profile/', ProfilView.as_view(), name='profil'),
     path('form/', AddDonationView.as_view(), name='adddonation'),
+    path('form/form-confirmation', FormCorfirmationView.as_view(), name='confirmation'),
     path('accounts/', include('django.contrib.auth.urls')),
 
 ]
